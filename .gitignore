@@ -5,3 +5,4 @@ __pycache__
 *.log
 *.out
 *.egg-info
+dev.ini
