@@ -1,0 +1,61 @@
+version: "3.8"
+
+services:
+  redis:
+    container_name: "redis"
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      internal_network:
+        ipv4_address: 192.168.8.2
+
+  mongodb:
+    container_name: "mongo"
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "username"
+      MONGO_INITDB_ROOT_PASSWORD: "password"
+    networks:
+      internal_network:
+        ipv4_address: 192.168.8.3
+
+  eclipse-mosquitto:
+    container_name: "mosquitto"
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1888:1888"
+    volumes:
+      - "/path/of/mosquito/config:/mosquitto/config/mosquitto.conf"
+      - "/path/of/mosquito/password/file:/mosquitto/config/mosquitto.pwd"
+      - "/mosquitto/data"
+      - "/mosquitto/log"
+    networks:
+      internal_network:
+        ipv4_address: 192.168.8.4
+
+  sensor-monitoring-app:
+    container_name: "sensor-monitoring-app"
+    image: sensor-monitoring-app
+    build:
+      context: .
+    ports:
+      - "8000:8000"  # Replace with the port your Python app listens on
+    dns: "8.8.8.8"
+    depends_on:
+      - redis
+      - mongodb
+      - eclipse-mosquitto
+    networks:
+      internal_network:
+        ipv4_address: 192.168.8.5
+
+networks:
+  internal_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.8.0/16
+          gateway: 192.168.8.1

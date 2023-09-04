@@ -1,0 +1,8 @@
+venv/
+.idea
+tests/
+__pycache__
+*.log
+*.out
+*.egg-info
+dev.ini
