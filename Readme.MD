@@ -1,3 +1,77 @@
+
+# Sensor Monitoring
+
+System is designed to simulate the behavior of various sensors, ensuring accurate and reliable data generation. We continuously monitor the readings from these sensors, offering real-time insights into the environment or system being monitored. Additionally, we provide a user-friendly API that allows you to easily retrieve specific data based on your criteria. Whether you need last ten readings of a temperature sensor or readings within a certain timeframe, our API makes it effortless to access the information you need.
+## Installation
+
+<font size="4">**1 Set Up MongoDB Credentials**</font>
+>Set your desired MongoDB username and password in the environment variables as shown below:.
+```yaml
+environment:
+  MONGO_INITDB_ROOT_USERNAME: system
+  MONGO_INITDB_ROOT_PASSWORD: zsWGd4L4JyeKXaI
+```
+Additionally, set the static IPv4 address in the ipv4_address field within the networks section:
+```yml
+networks:
+  internal_network:
+    ipv4_address: 192.168.8.3
+```  
+Update your Python app's configuration file to include the MongoDB host, username, and password:
+```ini
+[mongodb]
+host = 192.168.8.3
+username = system
+username = zsWGd4L4JyeKXaI
+```
+
+<font size="4">**2 Configure Mosquitto (MQTT)**</font>
+>Set the absolute paths to your Mosquitto configuration and password files in the volumes section:
+```yaml
+volumes:
+  - "/home/alex/Documents/mosquito.config:/mosquitto/config/mosquitto.conf"
+  - "/home/alex/Documents/mosquito.pwd:/mosquitto/config/mosquitto.pwd"
+  - "/mosquitto/data"
+  - "/mosquitto/log"
+```
+Additionally, set the static IPv4 address in the ipv4_address field within the networks section:
+```yaml
+networks:
+  internal_network:
+    ipv4_address: 192.168.8.4
+```
+Update your Python app's configuration file to include the Mosquitto (MQTT) host, username, and password:
+```ini
+[mosquitto]
+host = 192.168.8.4
+username = system
+password = PsAnd9L8JyeQXaU
+```
+
+### 3 Configure redis 
+Set the static IPv4 address in the ipv4_address field within the networks section:
+```yaml
+networks:
+  internal_network:
+    ipv4_address: 192.168.8.2
+```
+Update your Python app's configuration file to include the Redis host:
+```ini
+[redis]
+host = 192.168.8.2
+```
+
+### 4 Network Configuration
+Update the subnet configuration in the docker-compose.yml file under the newly created network. Adjust the subnet and gateway values as needed:
+```yaml
+networks:
+  internal_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.8.0/16
+          gateway: 192.168.8.1
+```
 ## Servcice Overview
 
 ### 1 Redis
