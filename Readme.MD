@@ -4,8 +4,8 @@
 System is designed to simulate the behavior of various sensors, ensuring accurate and reliable data generation. We continuously monitor the readings from these sensors, offering real-time insights into the environment or system being monitored. Additionally, we provide a user-friendly API that allows you to easily retrieve specific data based on your criteria. Whether you need last ten readings of a temperature sensor or readings within a certain timeframe, our API makes it effortless to access the information you need.
 ## Installation
 
-<font size="4">**1 Set Up MongoDB Credentials**</font>
->Set your desired MongoDB username and password in the environment variables as shown below:.
+<font size="6">**1 Set Up MongoDB Credentials**</font>
+Set your desired MongoDB username and password in the environment variables as shown below:.
 ```yaml
 environment:
   MONGO_INITDB_ROOT_USERNAME: system
